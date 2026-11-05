@@ -1608,6 +1608,7 @@
 
   let sessionToken = null;
   let currentUser = null;
+  let pendingChallengeId = null;
 
   function togglePassword() {
     const input = document.getElementById('password');
@@ -1653,6 +1654,17 @@
 
         sessionToken = result.token;
         currentUser = result.user;
+       (result.requiresVerification) {
+  pendingChallengeId = result.challengeId;
+
+  document.getElementById('loginForm').classList.add('hidden');
+  document.getElementById('otpForm').classList.remove('hidden');
+
+  document.getElementById('otpMessage').textContent =
+    'A verification code has been sent to your Gmail.';
+
+  return;
+}
 
         openDashboard(result.schoolName);
 
@@ -1668,7 +1680,51 @@
       .apiLogin(email, password);
 
   });
+document.getElementById('otpForm').addEventListener('submit', function(e) {
+  e.preventDefault();
 
+  const code = document.getElementById('otpCode').value.trim();
+  const btn = document.getElementById('verifyOtpBtn');
+  const message = document.getElementById('otpMessage');
+
+  if (!/^\d{6}$/.test(code)) {
+    message.textContent = 'Enter a valid 6-digit code.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Verifying...';
+
+  google.script.run
+    .withSuccessHandler(function(result) {
+      btn.disabled = false;
+      btn.textContent = 'Verify Code';
+
+      if (!result || !result.success) {
+        message.textContent = result ? result.message : 'Verification failed.';
+        return;
+      }
+
+      sessionToken = result.token;
+      currentUser = result.user;
+
+      document.getElementById('otpForm').classList.add('hidden');
+      openDashboard(result.schoolName);
+    })
+    .withFailureHandler(function(error) {
+      btn.disabled = false;
+      btn.textContent = 'Verify Code';
+      message.textContent = error.message || 'Server error.';
+    })
+    .apiVerifyLoginCode(pendingChallengeId, code);
+});
+
+function backToLogin() {
+  document.getElementById('otpForm').classList.add('hidden');
+  document.getElementById('loginForm').classList.remove('hidden');
+  document.getElementById('otpCode').value = '';
+  pendingChallengeId = null;
+}
 
 
   function hideAttendanceViews() {
