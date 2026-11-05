@@ -5,7 +5,7 @@
   <base target="_top">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>HARGEISA VIP SKILLS | Attendance Management</title>
+  <title>Noradin Schools | Attendance Management</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -743,12 +743,12 @@
 <section id="loginPage">
 
   <div class="login-left">
-    <div class="brand-logo" title="HARGEISA VIP SKILLS logo">
+    <div class="brand-logo" title="Noradin Schools logo">
       <!-- LOGO SLOT: Replace the icon below with your logo image after uploading it to Google Drive. -->
       <i class="fa-solid fa-graduation-cap"></i>
     </div>
 
-    <h1>KU SOO DHAWOOW<br>HARGEISA VIP SKILLS!</h1>
+    <h1>KU SOO DHAWOOW<br>NORADIN SCHOOLS!</h1>
 
     <p>
       Xaruntaada casriga ah ee lagu barto laguna horumariyo xirfadaha gacanta.
@@ -757,16 +757,16 @@
     </p>
 
     <p>
-      Baro xirfad cusub, kobci kartidaada, una diyaar garow mustaqbal guul leh.
+      Maamul ardayda, macallimiinta, fasallada iyo xaadirinta si fudud oo ammaan ah.
     </p>
 
     <div class="login-tagline">
-      HARGEISA VIP SKILLS<br>
-      BARO XIRFAD, DHIS MUSTAQBALKAAGA!
+      Noradin Schools<br>
+      MAAMUL WAXBARASHO, DHIS MUSTAQBAL!
     </div>
 
     <div class="login-footer">
-      © 2027 HARGEISA VIP SKILLS. All rights reserved.
+      © 2027 Noradin Schools. All rights reserved.
     </div>
   </div>
 
@@ -803,9 +803,8 @@
         <div id="loginMessage" class="login-message"></div>
 
       </form>
-</form>
 
-<!-- HALKAN KU DHEJI OTP FORM-KA -->
+<!-- OTP VERIFICATION FORM -->
 
 <form id="otpForm" class="hidden">
   <h2>Verify Your Gmail</h2>
@@ -847,13 +846,13 @@
   <aside class="sidebar" id="sidebar">
 
     <div class="side-brand">
-      <div class="side-logo" title="HARGEISA VIP SKILLS logo">
+      <div class="side-logo" title="Noradin Schools logo">
         <!-- LOGO SLOT: Place the same logo image here after you provide its Google Drive image URL. -->
         <i class="fa-solid fa-graduation-cap"></i>
       </div>
 
       <div>
-        <strong>HARGEISA VIP SKILLS</strong>
+        <strong>Noradin Schools</strong>
         <small>ATTENDANCE MANAGEMENT</small>
       </div>
     </div>
@@ -923,7 +922,7 @@
         </button>
 
         <div>
-          <h3 id="topSchool">HARGEISA VIP SKILLS</h3>
+          <h3 id="topSchool">Noradin Schools</h3>
           <small>Student Attendance Management System</small>
         </div>
       </div>
@@ -931,7 +930,7 @@
       <div class="user-info">
         <div class="avatar" id="userAvatar">N</div>
         <div>
-          <div class="user-name" id="userName">HARGEISA VIP SKILLS ADMINISTRATOR</div>
+          <div class="user-name" id="userName">Noradin Administrator</div>
           <div class="user-role" id="userRole">ADMIN</div>
         </div>
       </div>
@@ -1091,7 +1090,7 @@
 
           <div class="notice">
             <i class="fa-solid fa-circle-info"></i>
-            Your dashboard is connected to the HARGEISA VIP SKILLS Google Sheets database.
+            Your dashboard is connected to the Noradin Schools Google Sheets database.
           </div>
 
         </div>
@@ -1104,7 +1103,7 @@
         <div class="page-heading">
           <div>
             <h2>Students Management</h2>
-            <p>Register, search, update and manage HARGEISA VIP SKILLS students.</p>
+            <p>Register, search, update and manage Noradin Schools students.</p>
           </div>
           <button class="primary-btn" onclick="openStudentForm()">
             <i class="fa-solid fa-plus"></i> &nbsp; Add Student
@@ -1161,7 +1160,7 @@
         <div class="page-heading">
           <div>
             <h2>Teachers Management</h2>
-            <p>Register, search, update and manage HARGEISA VIP SKILLS teachers.</p>
+            <p>Register, search, update and manage Noradin Schools teachers.</p>
           </div>
           <button class="primary-btn" onclick="openTeacherForm()">
             <i class="fa-solid fa-plus"></i> &nbsp; Add Teacher
@@ -1199,7 +1198,7 @@
         <div class="page-heading">
           <div>
             <h2>Classes Management</h2>
-            <p>Create and manage the academic classes at HARGEISA VIP SKILLS.</p>
+            <p>Create and manage the academic classes at Noradin Schools.</p>
           </div>
           <button class="primary-btn" onclick="openClassForm()"><i class="fa-solid fa-plus"></i> &nbsp; Add Class</button>
         </div>
@@ -1350,7 +1349,7 @@
         <div class="panel" style="max-width:850px;">
           <form id="systemSettingsForm" class="master-form">
             <div class="master-form-grid">
-              <div class="field"><label for="sysSchoolName">School Name *</label><input id="sysSchoolName" required maxlength="120" placeholder="HARGEISA VIP SKILLS"></div>
+              <div class="field"><label for="sysSchoolName">School Name *</label><input id="sysSchoolName" required maxlength="120" placeholder="Noradin Schools"></div>
               <div class="field"><label for="sysSchoolPhone">School Phone</label><input id="sysSchoolPhone" maxlength="40" type="tel" placeholder="School contact number"></div>
               <div class="field"><label for="sysAcademicYear">Academic Year</label><input id="sysAcademicYear" maxlength="40" placeholder="e.g. 2026-2027"></div>
               <div class="field" style="grid-column:1/-1"><label for="sysSchoolAddress">School Address</label><textarea id="sysSchoolAddress" maxlength="250" placeholder="School address"></textarea></div>
@@ -1654,7 +1653,7 @@
 
         sessionToken = result.token;
         currentUser = result.user;
-       (result.requiresVerification) {
+        if (result.requiresVerification) {
   pendingChallengeId = result.challengeId;
 
   document.getElementById('loginForm').classList.add('hidden');
@@ -1726,52 +1725,6 @@ function backToLogin() {
   pendingChallengeId = null;
 }
 
-// OTP VERIFICATION
-document.getElementById('otpForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-
-  const code = document.getElementById('otpCode').value.trim();
-  const btn = document.getElementById('verifyOtpBtn');
-  const message = document.getElementById('otpMessage');
-
-  if (!/^\d{6}$/.test(code)) {
-    message.textContent = 'Enter a valid 6-digit code.';
-    return;
-  }
-
-  btn.disabled = true;
-  btn.textContent = 'Verifying...';
-
-  google.script.run
-    .withSuccessHandler(function(result) {
-      btn.disabled = false;
-      btn.textContent = 'Verify Code';
-
-      if (!result || !result.success) {
-        message.textContent = result ? result.message : 'Verification failed.';
-        return;
-      }
-
-      sessionToken = result.token;
-      currentUser = result.user;
-
-      document.getElementById('otpForm').classList.add('hidden');
-      openDashboard(result.schoolName);
-    })
-    .withFailureHandler(function(error) {
-      btn.disabled = false;
-      btn.textContent = 'Verify Code';
-      message.textContent = error.message || 'Server error.';
-    })
-    .apiVerifyLoginCode(pendingChallengeId, code);
-});
-
-function backToLogin() {
-  document.getElementById('otpForm').classList.add('hidden');
-  document.getElementById('loginForm').classList.remove('hidden');
-  document.getElementById('otpCode').value = '';
-  pendingChallengeId = null;
-}
   function hideAttendanceViews() {
     ['takeAttendanceView','attendanceRecordsView','attendanceReportsView','systemUsersView','systemSettingsView'].forEach(function(id) {
       var el = document.getElementById(id); if (el) el.classList.add('hidden');
@@ -1783,7 +1736,7 @@ function backToLogin() {
     document.getElementById('loginPage').classList.add('hidden');
     document.getElementById('appPage').classList.remove('hidden');
 
-    document.getElementById('topSchool').textContent = schoolName || 'HARGEISA VIP SKILLS';
+    document.getElementById('topSchool').textContent = schoolName || 'Noradin Schools';
 
     document.getElementById('userName').textContent = currentUser.fullName;
     document.getElementById('userRole').textContent = currentUser.role;
@@ -2888,7 +2841,7 @@ function backToLogin() {
 
   function loadSystemSettings() {
     var msg=document.getElementById('systemSettingsMessage');msg.textContent='Loading school settings...';
-    google.script.run.withSuccessHandler(function(result){var x=result.settings||{};document.getElementById('sysSchoolName').value=x.SchoolName||'HARGEISA VIP SKILLS';document.getElementById('sysSchoolPhone').value=x.SchoolPhone||'';document.getElementById('sysSchoolAddress').value=x.SchoolAddress||'';document.getElementById('sysAcademicYear').value=x.AcademicYear||'';msg.textContent='Settings loaded.';}).withFailureHandler(function(error){msg.textContent=error&&error.message?error.message:'Unable to load settings.';}).apiGetSystemSettings(sessionToken);
+    google.script.run.withSuccessHandler(function(result){var x=result.settings||{};document.getElementById('sysSchoolName').value=x.SchoolName||'Noradin Schools';document.getElementById('sysSchoolPhone').value=x.SchoolPhone||'';document.getElementById('sysSchoolAddress').value=x.SchoolAddress||'';document.getElementById('sysAcademicYear').value=x.AcademicYear||'';msg.textContent='Settings loaded.';}).withFailureHandler(function(error){msg.textContent=error&&error.message?error.message:'Unable to load settings.';}).apiGetSystemSettings(sessionToken);
   }
 
   document.getElementById('systemSettingsForm').addEventListener('submit',function(e){
