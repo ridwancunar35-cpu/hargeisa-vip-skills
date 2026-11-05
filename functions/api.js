@@ -1,23 +1,53 @@
 
 export async function onRequestPost({ request, env }) {
+  const headers = {
+    'Content-Type': 'application/json',
+    'Cache-Control': 'no-store'
+  };
+
   try {
+    // 1. Check server configuration
     if (!env.GAS_WEB_APP_URL || !env.API_SECRET) {
       return Response.json({
         success: false,
         message: 'Server configuration is missing.'
-      }, { status: 500 });
+      }, {
+        status: 500,
+        headers
+      });
     }
 
-    const body = await request.json();
+    // 2. Validate request body
+    let body;
 
-    if (!body.action || !Array.isArray(body.args)) {
+    try {
+      body = await request.json();
+    } catch (error) {
+      return Response.json({
+        success: false,
+        message: 'Invalid JSON request.'
+      }, {
+        status: 400,
+        headers
+      });
+    }
+
+    if (
+      !body ||
+      typeof body.action !== 'string' ||
+      !body.action.trim() ||
+      !Array.isArray(body.args)
+    ) {
       return Response.json({
         success: false,
         message: 'Invalid API request.'
-      }, { status: 400 });
+      }, {
+        status: 400,
+        headers
+      });
     }
 
-    // Send request securely to Google Apps Script
+    // 3. Send secure request to Google Apps Script
     const upstream = await fetch(env.GAS_WEB_APP_URL, {
       method: 'POST',
       headers: {
@@ -31,6 +61,7 @@ export async function onRequestPost({ request, env }) {
       redirect: 'follow'
     });
 
+    // 4. Read Google Apps Script response
     const raw = await upstream.text();
 
     let result;
@@ -41,27 +72,63 @@ export async function onRequestPost({ request, env }) {
       return Response.json({
         success: false,
         message: 'Google Apps Script returned an invalid response.'
-      }, { status: 502 });
+      }, {
+        status: 502,
+        headers
+      });
     }
 
-    if (result && result.__error) {
+    // 5. Validate response structure
+    if (
+      !result ||
+      typeof result !== 'object' ||
+      Array.isArray(result)
+    ) {
+      return Response.json({
+        success: false,
+        message: 'Invalid response from Google Apps Script.'
+      }, {
+        status: 502,
+        headers
+      });
+    }
+
+    // 6. Handle backend errors
+    if (result.__error) {
       return Response.json({
         success: false,
         message: result.message || 'API request failed.'
-      }, { status: 401 });
+      }, {
+        status: 401,
+        headers
+      });
     }
 
+    // 7. Handle upstream HTTP errors
+    if (!upstream.ok) {
+      return Response.json({
+        success: false,
+        message: 'Google Apps Script request failed.'
+      }, {
+        status: 502,
+        headers
+      });
+    }
+
+    // 8. Return successful API response
     return Response.json(result, {
-      headers: {
-        'Cache-Control': 'no-store'
-      }
+      status: 200,
+      headers
     });
 
   } catch (error) {
+    // 9. Handle connection or server errors
     return Response.json({
       success: false,
-      message: error.message || 'Connection error.'
-    }, { status: 500 });
+      message: 'Unable to connect to the server. Please try again.'
+    }, {
+      status: 500,
+      headers
+    });
   }
 }
-// Deployment refresh
