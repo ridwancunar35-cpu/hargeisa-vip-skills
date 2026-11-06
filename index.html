@@ -1606,6 +1606,79 @@
   let currentUser = null;
   let pendingChallengeId = null;
 
+  // Keep the verified login session across browser refreshes.
+  // Passwords are never stored in the browser.
+  const HVS_SESSION_TOKEN_KEY = 'hvs_attendance_session_token_v1';
+  const HVS_SESSION_USER_KEY = 'hvs_attendance_session_user_v1';
+  const HVS_SESSION_SCHOOL_KEY = 'hvs_attendance_session_school_v1';
+
+  function saveBrowserSession(token, user, schoolName) {
+    try {
+      if (!token || !user) return;
+      window.localStorage.setItem(HVS_SESSION_TOKEN_KEY, String(token));
+      window.localStorage.setItem(HVS_SESSION_USER_KEY, JSON.stringify(user));
+      window.localStorage.setItem(HVS_SESSION_SCHOOL_KEY, String(schoolName || 'HARGEISA VIP SKILLS'));
+    } catch (error) {
+      console.warn('Browser session could not be saved:', error);
+    }
+  }
+
+  function clearBrowserSession() {
+    try {
+      window.localStorage.removeItem(HVS_SESSION_TOKEN_KEY);
+      window.localStorage.removeItem(HVS_SESSION_USER_KEY);
+      window.localStorage.removeItem(HVS_SESSION_SCHOOL_KEY);
+    } catch (error) {
+      console.warn('Browser session could not be cleared:', error);
+    }
+  }
+
+  function restoreBrowserSession() {
+    let savedToken = '';
+    let savedUser = null;
+    let savedSchool = 'HARGEISA VIP SKILLS';
+
+    try {
+      savedToken = window.localStorage.getItem(HVS_SESSION_TOKEN_KEY) || '';
+      const rawUser = window.localStorage.getItem(HVS_SESSION_USER_KEY);
+      savedUser = rawUser ? JSON.parse(rawUser) : null;
+      savedSchool = window.localStorage.getItem(HVS_SESSION_SCHOOL_KEY) || savedSchool;
+    } catch (error) {
+      clearBrowserSession();
+      return;
+    }
+
+    if (!savedToken || !savedUser || !savedUser.role) return;
+
+    sessionToken = savedToken;
+    currentUser = savedUser;
+
+    // apiGetSections is a read-only endpoint available to ADMIN and TEACHER.
+    // A successful response confirms that the server-side session is still valid.
+    google.script.run
+      .withSuccessHandler(function(result) {
+        if (!result || result.success !== true) {
+          clearBrowserSession();
+          sessionToken = null;
+          currentUser = null;
+          return;
+        }
+        openDashboard(savedSchool);
+      })
+      .withFailureHandler(function(error) {
+        // Keep the saved token during temporary network errors; the next refresh can retry.
+        sessionToken = null;
+        currentUser = null;
+        const message = document.getElementById('loginMessage');
+        if (message) {
+          message.textContent = (error && error.message)
+            ? 'Could not restore your session: ' + error.message
+            : 'Could not connect to verify your session. Please refresh or sign in again.';
+        }
+      })
+      .apiGetSections(savedToken, { status: 'ALL' });
+  }
+
   // Remember the email address only; passwords are never stored in the browser.
   (function restoreRememberedEmail() {
     try {
@@ -1726,6 +1799,7 @@ document.getElementById('otpForm').addEventListener('submit', function(e) {
 
       sessionToken = result.token;
       currentUser = result.user;
+      saveBrowserSession(sessionToken, currentUser, result.schoolName);
 
       document.getElementById('otpForm').classList.add('hidden');
       openDashboard(result.schoolName);
@@ -1841,7 +1915,10 @@ function backToLogin() {
 
   function logout() {
 
-    if (!sessionToken) {
+    const tokenToLogout = sessionToken;
+    clearBrowserSession();
+
+    if (!tokenToLogout) {
       showLogin();
       return;
     }
@@ -1857,12 +1934,13 @@ function backToLogin() {
         currentUser = null;
         showLogin();
       })
-      .apiLogout(sessionToken);
+      .apiLogout(tokenToLogout);
 
   }
 
 
   function showLogin() {
+    clearBrowserSession();
     currentUser = null;
     sessionToken = null;
     document.getElementById('teacherLandingView').classList.add('hidden');
@@ -2925,6 +3003,9 @@ function backToLogin() {
   function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('open');
   }
+
+  // Restore a valid signed-in session after a page refresh.
+  restoreBrowserSession();
 
 </script>
 
