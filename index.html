@@ -2007,7 +2007,7 @@ function backToLogin() {
 
     const tbody = document.getElementById('studentsTableBody');
     const message = document.getElementById('studentsMessage');
-    tbody.innerHTML = '<tr><td colspan="9" class="empty-state">Loading students...</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10" class="empty-state">Loading students...</td></tr>';
     message.textContent = '';
 
     const filters = {
@@ -2021,14 +2021,14 @@ function backToLogin() {
     google.script.run
       .withSuccessHandler(function(result) {
         if (!result || !result.success) {
-          tbody.innerHTML = '<tr><td colspan="9" class="empty-state">Could not load students.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="10" class="empty-state">Could not load students.</td></tr>';
           message.textContent = result ? result.message : 'Server returned no response.';
           return;
         }
 
         const students = result.students || [];
         if (!students.length) {
-          tbody.innerHTML = '<tr><td colspan="9" class="empty-state">No students found.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="10" class="empty-state">No students found.</td></tr>';
           message.textContent = 'Students found: 0';
           return;
         }
@@ -2039,7 +2039,9 @@ function backToLogin() {
           return `
             <tr>
               <td>${index + 1}</td>
-              <td>${escapeStudentHtml(student.AdmissionNo)}</td>
+             <td>${index + 1}</td>
+             <td>${escapeStudentHtml(student.StudentID)}</td>
+             <td>${escapeStudentHtml(student.AdmissionNo)}</td>
               <td><strong>${escapeStudentHtml(student.StudentName)}</strong></td>
               <td>${escapeStudentHtml(student.Gender)}</td>
               <td>${escapeStudentHtml((classCache.find(c => String(c.ClassID) === String(student.ClassID)) || {}).ClassName || student.ClassID)}</td>
