@@ -2038,11 +2038,10 @@ function backToLogin() {
           const statusClass = status === 'ACTIVE' ? 'status-active' : 'status-inactive';
           return `
             <tr>
-              <td>${index + 1}</td>
-             <td>${index + 1}</td>
-             <td>${escapeStudentHtml(student.StudentID)}</td>
-             <td>${escapeStudentHtml(student.AdmissionNo)}</td>
-              <td><strong>${escapeStudentHtml(student.StudentName)}</strong></td>
+            <td>${index + 1}</td>
+           <td>${escapeStudentHtml(student.StudentID)}</td>
+           <td>${escapeStudentHtml(student.AdmissionNo)}</td>
+            <td><strong>${escapeStudentHtml(student.StudentName)}</strong></td>
               <td>${escapeStudentHtml(student.Gender)}</td>
               <td>${escapeStudentHtml((classCache.find(c => String(c.ClassID) === String(student.ClassID)) || {}).ClassName || student.ClassID)}</td>
               <td>${escapeStudentHtml((sectionCache.find(s => String(s.SectionID) === String(student.SectionID)) || {}).SectionName || student.SectionID)}</td>
