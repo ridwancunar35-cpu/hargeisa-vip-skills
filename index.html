@@ -2027,6 +2027,7 @@ function backToLogin() {
         }
 
         const students = result.students || [];
+        console.log('STUDENT DATA:', students);
         if (!students.length) {
           tbody.innerHTML = '<tr><td colspan="10" class="empty-state">No students found.</td></tr>';
           message.textContent = 'Students found: 0';
