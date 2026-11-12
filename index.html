@@ -686,28 +686,13 @@
 .hvs-receipt-footer{border-top:1px solid #e2c9c0;text-align:center;padding-top:15px;font-size:10px;line-height:1.8;color:#80736c}
 .hvs-receipt-footer strong{color:#B81104}
 @media print{@page{size:A4 portrait;margin:10mm}html,body{background:#fff!important}body *{visibility:hidden!important}#hvsPrintReceipt,#hvsPrintReceipt *{visibility:visible!important}#hvsPrintReceipt{display:block!important;position:absolute!important;left:0;top:0;width:100%;padding:0!important;margin:0!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}.hvs-receipt-frame{width:100%;max-width:none;min-height:265mm;border-width:2px;page-break-inside:avoid;break-inside:avoid}.hvs-receipt-inner{min-height:259mm;padding:25px 31px 20px}.hvs-receipt-topline{margin:-25px -31px 24px}.hvs-receipt-bottom{padding-top:30px}}
-  
-/* Restored login scenery and Somali welcome message */
-#loginPage{gap:clamp(20px,4vw,72px);padding:40px clamp(20px,5vw,80px);background:linear-gradient(90deg,rgba(11,28,24,.66),rgba(12,22,16,.26)),url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2000&q=85') center/cover no-repeat!important}
-.hvs-welcome-copy{flex:1;max-width:610px;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.4)}
-.hvs-welcome-kicker{font-size:13px;font-weight:800;letter-spacing:3px;color:#fff3d5;margin-bottom:18px}
-.hvs-welcome-copy h1{font-size:clamp(29px,3.7vw,53px);line-height:1.14;margin:0 0 20px;font-weight:800}
-.hvs-welcome-copy p{font-size:clamp(14px,1.3vw,18px);line-height:1.8;max-width:540px}
-.hvs-welcome-copy strong{display:block;margin-top:20px;color:#fff1a6;font-size:clamp(15px,1.4vw,20px)}
-#loginPage .login-right{flex:0 1 510px;width:min(100%,510px);background:transparent!important;padding:0!important}
-#loginPage .login-card{background:rgba(26,38,35,.55)}
-@media(max-width:850px){#loginPage{flex-direction:column!important;justify-content:center;gap:22px;padding:30px 16px!important}.hvs-welcome-copy{flex:initial;text-align:center;max-width:560px}.hvs-welcome-copy h1{font-size:clamp(23px,5vw,36px);margin-bottom:10px}.hvs-welcome-copy p{font-size:13px;line-height:1.55;margin:0 auto}.hvs-welcome-copy strong{margin-top:10px;font-size:14px}#loginPage .login-right{flex:initial;width:min(100%,510px)}}
-/* Compact A5 portrait receipt */
-@media print{@page{size:A5 portrait;margin:5mm}#hvsPrintReceipt{width:100%!important}.hvs-receipt-frame{min-height:0!important;max-width:none!important;width:100%!important;padding:4px!important}.hvs-receipt-inner{min-height:0!important;padding:12px 15px!important}.hvs-receipt-topline{margin:-12px -15px 12px!important}.hvs-receipt-header{padding-bottom:9px!important}.hvs-receipt-emblem{width:35px!important;height:35px!important;font-size:13px!important;margin-bottom:6px!important}.hvs-receipt-header h1{font-size:17px!important}.hvs-receipt-document-title{margin:10px 0!important}.hvs-receipt-document-title h2{font-size:13px!important}.hvs-receipt-ref{padding:7px!important;margin-bottom:9px!important}.hvs-receipt-section{margin:8px 0 5px!important;padding-bottom:4px!important}.hvs-receipt-meta{row-gap:6px!important}.hvs-receipt-payment-table{margin:7px 0!important}.hvs-receipt-payment-table th,.hvs-receipt-payment-table td{padding:6px!important;font-size:9px!important}.hvs-receipt-total{padding:9px!important}.hvs-receipt-total span:last-child{font-size:17px!important}.hvs-receipt-bottom{padding-top:18px!important}.hvs-receipt-signatures{margin-bottom:10px!important}.hvs-receipt-footer{padding-top:6px!important}}
-
-</style>
+  </style>
 </head>
 
 <body>
 
 <!-- LOGIN PAGE -->
 <section id="loginPage">
-  <div class="hvs-welcome-copy"><div class="hvs-welcome-kicker">HARGEISA VIP SKILLS</div><h1>KU SOO DHAWOOW HARGEISA VIP SKILLS!</h1><p>Ku soo dhawoow xarunta barashada xirfadaha iyo horumarinta aqoonta. Waxaan kuu diyaarinay waxbarasho tayo leh iyo fursado aad mustaqbalkaaga ku dhisi karto.</p><strong>“Xirfad baro, hal-abuur muuji, mustaqbal dhis!”</strong></div>
   <div class="login-right">
     <div class="login-card">
       <h2>Login</h2>
@@ -1659,7 +1644,7 @@
           document.getElementById('otpForm').classList.remove('hidden');
           document.getElementById('otpCode').value = '';
           document.getElementById('otpMessage').textContent =
-            'Verification code sent. Check Inbox and Spam/Junk. The code expires in 5 minutes.';
+            'A 6-digit verification code has been sent to your email address.';
           document.getElementById('otpCode').focus();
           return;
         }
@@ -1683,7 +1668,7 @@
       .withFailureHandler(function(error) {
         btn.disabled = false;
         btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> &nbsp; Sign In';
-        showMessage(error && error.message ? error.message : 'OTP login request failed. Check Apps Script deployment and MailApp permissions.', 'error');
+        showMessage(error && error.message ? error.message : 'Server error. Please try again.', 'error');
       })
       .apiLogin(email, password);
   });
