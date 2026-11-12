@@ -727,6 +727,7 @@
       .page-heading { align-items:flex-start; }
     }
 
+    .hvs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:16px 0 22px}.hvs-grid input,.hvs-grid select{min-width:0;width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;background:white}.hvs-view .panel{margin:16px 0}.hvs-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:18px}.hvs-stat{padding:20px;background:#fff9e9;border:1px solid var(--border);border-radius:12px}.hvs-stat strong{display:block;font-size:24px;color:var(--primary);margin-top:10px}.hvs-pill{padding:6px 10px;border-radius:9px;display:inline-block;margin:4px}.hvs-paid{background:#def7e9;color:#17653e}.hvs-unpaid{background:#ffe2e0;color:#aa241b}@media print{body *{visibility:hidden!important}#hvsPrintReceipt,#hvsPrintReceipt *{visibility:visible!important}#hvsPrintReceipt{position:absolute;top:0;left:0;width:100%;background:white;color:black;padding:30px}}
   </style>
 </head>
 
@@ -869,6 +870,12 @@
       <i class="fa-solid fa-layer-group"></i> Sections
     </div>
 
+    <div class="menu-title admin-only">FINANCE & SKILLS</div>
+    <div class="nav-link admin-only" onclick="hvsOpen('hvsRegistration',this)"><i class="fa-solid fa-money-bill-transfer"></i> Student Registration & Payments</div>
+    <div class="nav-link admin-only" onclick="hvsOpen('hvsSkills',this)"><i class="fa-solid fa-laptop-code"></i> Skills & Courses</div>
+    <div class="nav-link admin-only" onclick="hvsOpen('hvsExpenses',this)"><i class="fa-solid fa-receipt"></i> School Expenses</div>
+    <div class="nav-link admin-only" onclick="hvsOpen('hvsProfit',this)"><i class="fa-solid fa-chart-line"></i> Profit</div>
+    <div class="nav-link admin-only" onclick="hvsOpen('hvsPayroll',this)"><i class="fa-solid fa-wallet"></i> Employee Payroll</div>
     <div class="menu-title">ATTENDANCE</div>
 
     <div class="nav-link" id="takeAttendanceNav" onclick="openTakeAttendance(this)">
@@ -996,6 +1003,7 @@
       </div>
 
 
+      <div class="stats-grid admin-only" id="hvsDashboardFinance"><div class="stat-card"><span class="stat-label">MONTHLY INCOME</span><div class="stat-number" id="hvsDashIncome">0</div></div><div class="stat-card"><span class="stat-label">SCHOOL EXPENSES</span><div class="stat-number" id="hvsDashExpenses">0</div></div><div class="stat-card"><span class="stat-label">EMPLOYEE PAYROLL</span><div class="stat-number" id="hvsDashPayroll">0</div></div><div class="stat-card"><span class="stat-label">MONTHLY PROFIT</span><div class="stat-number" id="hvsDashProfit">0</div></div></div>
       <div class="dashboard-grid">
 
         <div class="panel">
@@ -1439,6 +1447,13 @@
         </div>
       </div>
 
+
+<div id="hvsRegistration" class="hvs-view hidden"><div class="page-heading"><h2>Student Registration & Payments</h2><button class="primary-btn" onclick="openStudentForm()">+ Register New Student</button></div><div class="panel"><h3>Search Student ID</h3><div class="hvs-grid"><input id="hvsSearchId" placeholder="Enter Student ID"><button class="primary-btn" onclick="hvsSearchStudent()">Search Student</button></div><div id="hvsProfile" class="module-message">Search to view student details and payment history.</div></div><div class="panel"><h3>Record Student Payment</h3><form id="hvsPaymentForm" class="hvs-grid"><input id="hvsPayStudent" placeholder="Student ID" required><select id="hvsFeeType"><option value="MONTHLY">Monthly Fee</option><option value="REGISTRATION">Registration Fee</option></select><input id="hvsFeeMonth" type="month" required><input id="hvsPayAmount" type="number" min="0.01" step="0.01" placeholder="Amount" required><select id="hvsPayMethod"><option>CASH</option><option>ZAAD_SLSH</option><option>ZAAD_USD</option><option>EDAHAB_SLSH</option><option>EDAHAB_USD</option><option>OTHER</option></select><select id="hvsReceiver" required><option value="">Select Received By</option></select><input id="hvsPaymentDate" type="date" required><button class="primary-btn">Save Payment</button></form><div class="hvs-grid"><input id="hvsNewReceiver" placeholder="New cashier / receiver"><button class="secondary-btn" onclick="hvsAdd('receiver')">+ Add Received By</button></div><div id="hvsPayMsg" class="module-message"></div></div></div>
+<div id="hvsSkills" class="hvs-view hidden"><div class="page-heading"><h2>Skills & Courses</h2></div><div class="panel"><h3>Add Skill</h3><div class="hvs-grid"><input id="hvsSkillName" placeholder="Skill name"><button class="primary-btn" onclick="hvsAdd('skill')">+ Add Skill</button></div><h3>Add Course</h3><div class="hvs-grid"><select id="hvsCourseSkill"></select><input id="hvsCourseName" placeholder="Course name"><input id="hvsDuration" type="number" value="4" min="1" placeholder="Duration months"><input id="hvsMonthlyFee" type="number" min="0" placeholder="Monthly fee"><input id="hvsRegFee" type="number" min="0" placeholder="Registration fee"><button class="primary-btn" onclick="hvsAdd('course')">+ Add Course</button></div><h3>Students by Skill</h3><div class="hvs-grid"><select id="hvsSkillFilter" onchange="hvsSkillStudents()"></select></div><div id="hvsSkillList" class="module-message"></div><div id="hvsCatalogList"></div></div></div>
+<div id="hvsExpenses" class="hvs-view hidden"><h2>School Expenses</h2><div class="panel"><h3>Expense Categories</h3><div class="hvs-grid"><input id="hvsCategoryName" placeholder="Category name"><button class="primary-btn" onclick="hvsAdd('category')">+ Add Category</button></div><h3>Record Expense</h3><form id="hvsExpenseForm" class="hvs-grid"><select id="hvsExpenseCategory" required></select><input id="hvsExpenseDate" type="date" required><input id="hvsExpenseAmount" type="number" min="0.01" step="0.01" placeholder="Amount" required><input id="hvsPaidTo" placeholder="Paid to"><input id="hvsExpenseDesc" placeholder="Description" required><select id="hvsExpenseMethod"><option>CASH</option><option>ZAAD_SLSH</option><option>ZAAD_USD</option><option>EDAHAB_SLSH</option><option>EDAHAB_USD</option><option>OTHER</option></select><button class="primary-btn">Save Expense</button></form><div id="hvsExpenseMsg"></div></div></div>
+<div id="hvsProfit" class="hvs-view hidden"><h2>Monthly Profit</h2><div class="panel"><div class="hvs-grid"><input type="month" id="hvsReportMonth"><button class="primary-btn" onclick="hvsLoadFinance()">View Finance</button></div><div id="hvsFinanceReport" class="hvs-stats"></div></div></div>
+<div id="hvsPayroll" class="hvs-view hidden"><h2>Employee Payroll</h2><div class="panel"><h3>Add Employee</h3><div class="hvs-grid"><input id="hvsEmployeeName" placeholder="Full name"><input id="hvsEmployeePosition" placeholder="Position"><input id="hvsEmployeeSalary" type="number" min="0" placeholder="Basic salary"><button class="primary-btn" onclick="hvsAdd('employee')">+ Add Employee</button></div><h3>Record Payroll</h3><form id="hvsPayrollForm" class="hvs-grid"><select id="hvsPayrollEmployee" required></select><input type="month" id="hvsPayrollMonth" required><input id="hvsAllowance" type="number" min="0" value="0" placeholder="Allowance"><input id="hvsDeduction" type="number" min="0" value="0" placeholder="Deduction"><input type="date" id="hvsPayrollDate" required><select id="hvsPayrollMethod"><option>CASH</option><option>ZAAD_SLSH</option><option>ZAAD_USD</option><option>EDAHAB_SLSH</option><option>EDAHAB_USD</option><option>OTHER</option></select><input id="hvsPayrollNote" placeholder="Note"><button class="primary-btn">Save Payroll</button></form><div id="hvsPayrollMsg"></div></div></div>
+
       <div id="studentModal" class="modal-backdrop hidden">
         <div class="student-modal">
           <div class="modal-head">
@@ -1491,7 +1506,7 @@
                 <label for="formPhone2">Alternative Phone</label>
                 <input id="formPhone2" type="tel" placeholder="Alternative phone">
               </div>
-              <div class="field">
+              <div class="field" style="display:none">
                 <label for="formParentName">Parent / Guardian Name</label>
                 <input id="formParentName" type="text" placeholder="Parent or guardian">
               </div>
@@ -1503,6 +1518,7 @@
                 </select>
               </div>
             </div>
+            <div class="student-form-grid" style="margin-top:14px"><div class="field"><label>Skill *</label><select id="hvsStudentSkill" required onchange="hvsStudentCourseOptions()"><option value="">Select skill</option></select></div><div class="field"><label>Course *</label><select id="hvsStudentCourse" required><option value="">Select course</option></select></div><div class="field"><label>Study Start Month</label><input id="hvsStartMonth" type="month" required></div></div>
             <div id="studentFormMessage" class="module-message"></div>
             <div class="modal-actions">
               <button type="button" class="secondary-btn" onclick="closeStudentForm()">Cancel</button>
@@ -1864,6 +1880,7 @@ function backToLogin() {
     }
 
     document.getElementById('dashboardMessage').textContent = 'Loading dashboard data...';
+    hvsLoadFinance();
 
     google.script.run
       .withSuccessHandler(function(data) {
@@ -1960,6 +1977,7 @@ function backToLogin() {
   // ==========================================
 
   function setActiveMenu(element) {
+    document.querySelectorAll('.hvs-view').forEach(v=>v.classList.add('hidden'));
     document.querySelectorAll('.sidebar .nav-link').forEach(function(link) {
       link.classList.remove('active');
     });
@@ -2089,6 +2107,7 @@ function backToLogin() {
     document.getElementById('formClassID').innerHTML = '<option value="">Loading classes...</option>';
     document.getElementById('formSectionID').innerHTML = '<option value="">Select class first</option>';
     document.getElementById('studentModal').classList.remove('hidden');
+    hvsLoadStudentCatalog(student);
 
     google.script.run
       .withSuccessHandler(function(result) {
@@ -2172,6 +2191,10 @@ function backToLogin() {
       Phone: document.getElementById('formPhone').value.trim(),
       Phone2: document.getElementById('formPhone2').value.trim(),
       ParentName: document.getElementById('formParentName').value.trim(),
+      SkillID: document.getElementById('hvsStudentSkill').value,
+      CourseID: document.getElementById('hvsStudentCourse').value,
+      StudyStartMonth: Number((document.getElementById('hvsStartMonth').value||'').split('-')[1]),
+      StudyStartYear: Number((document.getElementById('hvsStartMonth').value||'').split('-')[0]),
       Status: document.getElementById('formStatus').value
     };
 
@@ -2919,6 +2942,7 @@ function backToLogin() {
   function openSystemPage(viewId, element) {
     var ids = ['dashboardView','studentsView','teachersView','classesView','sectionsView','takeAttendanceView','attendanceRecordsView','attendanceReportsView','systemUsersView','systemSettingsView'];
     ids.forEach(function(id) { var node=document.getElementById(id); if(node) node.classList.add('hidden'); });
+    document.querySelectorAll('.hvs-view').forEach(v=>v.classList.add('hidden'));
     setActiveMenu(element);
     document.getElementById(viewId).classList.remove('hidden');
     document.getElementById('sidebar').classList.remove('open');
@@ -3009,6 +3033,30 @@ function backToLogin() {
 
   // Restore a valid signed-in session after a page refresh.
 // restoreBrowserSession();
+
+
+// ===== HVS NEW MODULE FRONTEND =====
+let hvsCatalog={skills:[],courses:[],categories:[],receivers:[],employees:[]},hvsLastProfile=null;
+const hvsVal=id=>document.getElementById(id).value;
+const hvsEsc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const hvsToday=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+const hvsThisMonth=()=>hvsToday().slice(0,7);
+function hvsCall(name,args,onSuccess,onError){const runner=google.script.run.withSuccessHandler(onSuccess).withFailureHandler(e=>{const msg=e&&e.message?e.message:String(e);if(onError)onError(msg);else showToast(msg);});runner[name](sessionToken,...args);}
+function hvsSelect(id,items,value,label,placeholder){const el=document.getElementById(id);if(!el)return;const old=el.value;el.innerHTML='<option value="">'+hvsEsc(placeholder||'Select')+'</option>'+items.map(x=>'<option value="'+hvsEsc(x[value])+'">'+hvsEsc(x[label])+'</option>').join('');if(items.some(x=>String(x[value])===old))el.value=old;}
+function hvsLoadCatalog(cb){hvsCall('apiHvsCatalog',[],data=>{hvsCatalog=data;hvsSelect('hvsCourseSkill',data.skills,'SkillID','SkillName','Select skill');hvsSelect('hvsSkillFilter',data.skills,'SkillID','SkillName','Select skill');hvsSelect('hvsExpenseCategory',data.categories,'CategoryID','CategoryName','Select category');hvsSelect('hvsReceiver',data.receivers.filter(x=>x.Status==='ACTIVE'),'FullName','FullName','Received By');hvsSelect('hvsPayrollEmployee',data.employees,'EmployeeID','FullName','Select employee');hvsSelect('hvsStudentSkill',data.skills,'SkillID','SkillName','Select skill');hvsStudentCourseOptions();document.getElementById('hvsCatalogList').innerHTML='<h3>Skills & Courses</h3>'+data.skills.map(s=>'<p><b>'+hvsEsc(s.SkillName)+'</b>: '+data.courses.filter(c=>String(c.SkillID)===String(s.SkillID)).map(c=>hvsEsc(c.CourseName)).join(', ')+'</p>').join('');if(cb)cb();});}
+function hvsStudentCourseOptions(selected){const skill=hvsVal('hvsStudentSkill');hvsSelect('hvsStudentCourse',hvsCatalog.courses.filter(c=>String(c.SkillID)===String(skill)),'CourseID','CourseName','Select course');if(selected)document.getElementById('hvsStudentCourse').value=selected;}
+function hvsLoadStudentCatalog(student){hvsLoadCatalog(()=>{document.getElementById('hvsStudentSkill').value=student&&student.SkillID||'';hvsStudentCourseOptions(student&&student.CourseID);const now=hvsThisMonth();document.getElementById('hvsStartMonth').value=student&&student.StudyStartYear&&student.StudyStartMonth?student.StudyStartYear+'-'+String(student.StudyStartMonth).padStart(2,'0'):now;});}
+function hvsOpen(view,element){if(!currentUser||String(currentUser.role).toUpperCase()!=='ADMIN'){showToast('Access denied. ADMIN only.');return;}openSystemPage(view,element);hvsLoadCatalog();if(view==='hvsProfit')hvsLoadFinance();['hvsPaymentDate','hvsExpenseDate','hvsPayrollDate'].forEach(id=>document.getElementById(id).value=hvsToday());['hvsFeeMonth','hvsReportMonth','hvsPayrollMonth'].forEach(id=>document.getElementById(id).value=hvsThisMonth());}
+function hvsAdd(type){const fields={skill:{SkillName:hvsVal('hvsSkillName')},course:{SkillID:hvsVal('hvsCourseSkill'),CourseName:hvsVal('hvsCourseName'),DurationMonths:hvsVal('hvsDuration'),MonthlyFee:hvsVal('hvsMonthlyFee'),RegistrationFee:hvsVal('hvsRegFee')},category:{CategoryName:hvsVal('hvsCategoryName')},receiver:{FullName:hvsVal('hvsNewReceiver')},employee:{FullName:hvsVal('hvsEmployeeName'),Position:hvsVal('hvsEmployeePosition'),BasicSalary:hvsVal('hvsEmployeeSalary')}};hvsCall('apiHvsAddMaster',[type,fields[type]],r=>{showToast(r.message);hvsLoadCatalog();});}
+function hvsSkillStudents(){const id=hvsVal('hvsSkillFilter');if(!id)return;hvsCall('apiHvsSkillStudents',[id],r=>{document.getElementById('hvsSkillList').innerHTML='<h3>Students ('+r.students.length+')</h3>'+r.students.map(s=>'<p>'+hvsEsc(s.StudentID)+' — '+hvsEsc(s.StudentName)+' — '+hvsEsc((hvsCatalog.courses.find(c=>String(c.CourseID)===String(s.CourseID))||{}).CourseName)+'</p>').join('');});}
+function hvsSearchStudent(){const id=hvsVal('hvsSearchId').trim();if(!id){showToast('Enter Student ID');return;}document.getElementById('hvsPayStudent').value=id;hvsCall('apiHvsStudentProfile',[id],r=>{hvsLastProfile=r;const s=r.student;document.getElementById('hvsProfile').innerHTML='<h3>'+hvsEsc(s.StudentName)+' — ID '+hvsEsc(s.StudentID)+'</h3><p>Admission: '+hvsEsc(s.AdmissionNo)+' | Phone: '+hvsEsc(s.Phone)+' | Skill: '+hvsEsc(r.skill.SkillName)+' | Course: '+hvsEsc(r.course.CourseName)+'</p><p>Total paid: '+r.totalPaid.toFixed(2)+' | Total due: '+r.totalDue.toFixed(2)+' | Registration due: '+r.registrationDue.toFixed(2)+'</p><div>'+r.months.map(m=>'<span class="hvs-pill '+(m.status==='PAID'?'hvs-paid':'hvs-unpaid')+'">'+hvsEsc(m.label)+' — '+m.status+' (Due '+m.due.toFixed(2)+')</span>').join('')+'</div><h3>Payments & Receipts</h3>'+r.payments.map(p=>'<p>'+hvsEsc(p.PaymentID)+' | '+hvsEsc(p.PaymentDate)+' | '+hvsEsc(p.FeeType)+' | '+hvsEsc(p.Amount)+' <button class="secondary-btn" onclick="hvsPrintPayment(\''+hvsEsc(p.PaymentID)+'\')">Print Receipt</button></p>').join('')+'<p><button class="secondary-btn" onclick="hvsSetStudyPeriod()">Set Study Start from payment month</button></p>';},e=>document.getElementById('hvsProfile').textContent=e);}
+function hvsSetStudyPeriod(){const v=hvsVal('hvsFeeMonth').split('-');if(v.length!==2)return;hvsCall('apiHvsSetStudyPeriod',[hvsVal('hvsSearchId'),Number(v[1]),Number(v[0])],()=>hvsSearchStudent());}
+function hvsPrintPayment(id){const p=hvsLastProfile&&hvsLastProfile.payments.find(x=>String(x.PaymentID)===String(id));if(!p)return;const s=hvsLastProfile.student;const node=document.createElement('div');node.id='hvsPrintReceipt';node.innerHTML='<h2>HARGEISA VIP SKILLS</h2><h3>PAYMENT RECEIPT</h3><p>Receipt: '+hvsEsc(p.PaymentID)+'</p><p>Date: '+hvsEsc(p.PaymentDate)+'</p><p>Student: '+hvsEsc(s.StudentName)+' | Student ID: '+hvsEsc(s.StudentID)+'</p><p>Course: '+hvsEsc(hvsLastProfile.course.CourseName)+'</p><p>Fee: '+hvsEsc(p.FeeType)+' '+hvsEsc(p.FeeMonth||'')+'/'+hvsEsc(p.FeeYear||'')+'</p><h3>Amount: '+hvsEsc(p.Amount)+'</h3><p>Method: '+hvsEsc(p.PaymentMethod)+'</p><hr><p>Received By: <strong>'+hvsEsc(p.ReceivedBy)+'</strong></p>';document.body.appendChild(node);window.print();setTimeout(()=>node.remove(),1000);}
+document.getElementById('hvsFeeType').addEventListener('change',function(){document.getElementById('hvsFeeMonth').required=this.value==='MONTHLY';});
+document.getElementById('hvsPaymentForm').addEventListener('submit',e=>{e.preventDefault();const m=hvsVal('hvsFeeMonth').split('-'),p={StudentID:hvsVal('hvsPayStudent'),FeeType:hvsVal('hvsFeeType'),FeeMonth:Number(m[1]),FeeYear:Number(m[0]),Amount:hvsVal('hvsPayAmount'),PaymentMethod:hvsVal('hvsPayMethod'),ReceivedBy:hvsVal('hvsReceiver'),PaymentDate:hvsVal('hvsPaymentDate')};hvsCall('apiHvsPay',[p],r=>{document.getElementById('hvsPayMsg').textContent='Saved: '+r.payment.PaymentID;document.getElementById('hvsSearchId').value=p.StudentID;hvsSearchStudent();hvsLoadFinance();},msg=>document.getElementById('hvsPayMsg').textContent=msg);});
+document.getElementById('hvsExpenseForm').addEventListener('submit',e=>{e.preventDefault();const p={CategoryID:hvsVal('hvsExpenseCategory'),ExpenseDate:hvsVal('hvsExpenseDate'),Amount:hvsVal('hvsExpenseAmount'),PaidTo:hvsVal('hvsPaidTo'),Description:hvsVal('hvsExpenseDesc'),PaymentMethod:hvsVal('hvsExpenseMethod')};hvsCall('apiHvsExpense',[p],()=>{document.getElementById('hvsExpenseMsg').textContent='Expense saved';hvsLoadFinance();},msg=>document.getElementById('hvsExpenseMsg').textContent=msg);});
+document.getElementById('hvsPayrollForm').addEventListener('submit',e=>{e.preventDefault();const m=hvsVal('hvsPayrollMonth').split('-'),p={EmployeeID:hvsVal('hvsPayrollEmployee'),PayMonth:Number(m[1]),PayYear:Number(m[0]),Allowance:hvsVal('hvsAllowance'),Deduction:hvsVal('hvsDeduction'),PaymentDate:hvsVal('hvsPayrollDate'),PaymentMethod:hvsVal('hvsPayrollMethod'),Note:hvsVal('hvsPayrollNote')};hvsCall('apiHvsPayroll',[p],()=>{document.getElementById('hvsPayrollMsg').textContent='Payroll saved';hvsLoadFinance();},msg=>document.getElementById('hvsPayrollMsg').textContent=msg);});
+function hvsLoadFinance(){if(!currentUser||String(currentUser.role).toUpperCase()!=='ADMIN')return;const month=(document.getElementById('hvsReportMonth').value||hvsThisMonth()).split('-');hvsCall('apiHvsFinance',[Number(month[0]),Number(month[1])],r=>{[['hvsDashIncome',r.income],['hvsDashExpenses',r.schoolExpenses],['hvsDashPayroll',r.salaryExpenses],['hvsDashProfit',r.profit]].forEach(x=>document.getElementById(x[0]).textContent=x[1].toFixed(2));document.getElementById('hvsFinanceReport').innerHTML=[['Income',r.income],['School Expenses',r.schoolExpenses],['Payroll',r.salaryExpenses],['Total Expenses',r.expenses],['Profit',r.profit]].map(x=>'<div class="hvs-stat">'+x[0]+'<strong>'+x[1].toFixed(2)+'</strong></div>').join('');});}
 
 </script>
 
