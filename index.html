@@ -1576,18 +1576,21 @@
             }
           })
 
-          .catch(function (error) {
-            if (typeof failureHandler === 'function') {
-              failureHandler({ message: error.message });
-            } else {
-              console.error(error);
-            }
-          });
+         .catch(function (error) {
+  console.error('HVS API ERROR:', {
+    action: String(action),
+    message: error && error.message,
+    stack: error && error.stack
+  });
 
-        };
-      }
-
+  if (typeof failureHandler === 'function') {
+    failureHandler({
+      message: error && error.message
+        ? error.message
+        : 'Unknown API error.'
     });
+  }
+});
   }
 
   window.google = window.google || {};
