@@ -10,7 +10,7 @@ export async function onRequestPost({ request, env }) {
     if (!env.GAS_WEB_APP_URL || !env.API_SECRET) {
       return Response.json({
         success: false,
-        message: 'Server configuration is missing.'
+        message: 'Cloudflare configuration is missing (GAS_WEB_APP_URL or API_SECRET).'
       }, {
         status: 500,
         headers
@@ -71,7 +71,7 @@ export async function onRequestPost({ request, env }) {
     } catch (error) {
       return Response.json({
         success: false,
-        message: 'Google Apps Script returned an invalid response.'
+        message: 'Google Apps Script returned invalid JSON. Check the web-app URL, deployment access, and permissions.'
       }, {
         status: 502,
         headers
@@ -124,7 +124,7 @@ export async function onRequestPost({ request, env }) {
   } catch (error) {
     return Response.json({
       success: false,
-      message: 'Unable to connect to the server. Please try again.'
+      message: 'Cloudflare could not reach Google Apps Script. Check the GAS_WEB_APP_URL and deployment.'
     }, {
       status: 500,
       headers
