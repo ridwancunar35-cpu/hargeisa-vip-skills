@@ -2065,9 +2065,13 @@ function openStudents(element) {
   }
 
   function escapeStudentAttribute(value) {
-    return String(value == null ? '' : value).replace(/\\/g, '\\\').replace(/'/g, "\'");
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
-
   function openStudentForm(student) {
     document.getElementById('studentForm').reset();
     document.getElementById('formStudentID').value = '';
@@ -2231,9 +2235,13 @@ function openStudents(element) {
     });
   }
   function escapeMasterAttribute(value) {
-    return String(value == null ? '' : value).replace(/\\/g, '\\\').replace(/'/g, "\'");
-  }
-  function setMasterSelect(elementId, items, valueKey, labelFunction, placeholder, selectedValue) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }  function setMasterSelect(elementId, items, valueKey, labelFunction, placeholder, selectedValue) {
     var select = document.getElementById(elementId);
     if (!select) return;
     var selected = String(selectedValue == null ? '' : selectedValue);
@@ -2707,9 +2715,13 @@ function openTeachers(element) {
     });
   }
   function escapeTeacherAttribute(value) {
-    return String(value == null ? '' : value).replace(/\\/g, '\\\').replace(/'/g, "\'");
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
-
   function openTeacherForm(teacher) {
     document.getElementById('teacherForm').reset();
     document.getElementById('formTeacherID').value = '';
